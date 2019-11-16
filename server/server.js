@@ -3,39 +3,26 @@ require('./config/config.js');
 const express = require('express');
 const app = express();
 
+// Importamos las rutas para que al levantar este archivo sepa como tomar las peticiones http.
+app.use( require('./routes/usuario'));
 
+const mongoose = require('mongoose');
+
+
+/*
 const bodyParse = require('body-parser');
 app.use(bodyParse.urlencoded({extended:false}));
 app.use(bodyParse.json());
+*/
 
-app.get('/usuario', function(req, res){
-    res.json('get usuario!!!');
-})
+mongoose.connect(process.env.URLDB ,
+    { useNewUrlParser: true, useCreateIndex: true},
+    (err,res)=>{
+    if(err) throw err;
 
-app.post('/usuario', function(req, res){
-    let body = req.body;
-    if(body.nombre === undefined){
-        res.status(400).json({
-            ok:false,
-            mensaje:'El nombre es necesario'
-        });
-    }else{
-        res.json({
-            body
-        });
-    }
-})
+    console.log('Conectado a DB');
 
-
-app.put('/usuario/:id', function(req, res){
-    let id = req.params.id;
-
-    res.json({id});
-})
-
-app.delete('/usuario', function(req, res){
-    res.send('delete usuario');
-})
+});
 
 app.listen(process.env.PORT,function(){
     console.log('Escuchando en el puerto:',process.env.port);
