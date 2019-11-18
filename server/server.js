@@ -3,10 +3,11 @@ require('./config/config.js');
 const express = require('express');
 const app = express();
 
-// Importamos las rutas para que al levantar este archivo sepa como tomar las peticiones http.
-app.use( require('./routes/usuario'));
 
 const mongoose = require('mongoose');
+
+// Configuración de Rutas
+app.use(require('./routes/index'));
 
 
 /*
